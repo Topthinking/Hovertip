@@ -5,21 +5,28 @@
 	<title></title>
 </head>
 <body>
-<a href="javascript:;"><textarea style="display: none;">hello world</textarea>你好</a>
+<a href="javascript:;">你好</a>
+<a href="javascript:;">世界</a>
 <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="./Hovertip.js"></script>
 <script type="text/javascript">
-	$('a').mouseover(function(){
-		var tip = new Hover({
-			style:{
-				"background-color":"red",
-				"border":"1px solid #ccc",
-				"color":"green",
-				"width":"200px"
-			},
-			dom:"textarea"
+	$('a').each(function(){
+		$(this).mouseover(function(){
+			var keyword = $(this).text();
+			var tip = new Hover({
+				style:{
+					"background-color":"red",
+					"border":"1px solid #ccc",
+					"color":"green",
+					"width":"200px"
+				},
+				url:"./1.php",
+				param:{
+					keyword:keyword
+				}
+			});
+			tip.start(this);
 		});
-		tip.start(this);
 	});
 </script>
 </body>

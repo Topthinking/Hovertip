@@ -1,14 +1,17 @@
 var Hover = (function(){
 
   var global = {
-      dom:null
+      dom:null,
+      sign:0,
+      content:null
   }; 
 
   function Hover(opt){
       this.options = $.extend({
         style:null,
         dom:null,
-        url:null
+        url:null,
+        param:{}
       },opt||{});
   };
 
@@ -44,6 +47,7 @@ var Hover = (function(){
 
     //开始显示
     start:function(obj){
+        global.sign=0;
         var self = this;
         this.init();
 
@@ -61,12 +65,17 @@ var Hover = (function(){
     showContent:function(obj){
       var content;
       if(this.options.url!=null){
-        $.post(this.options.url,function(data){
-            if(data.isOk){
-              content = data.data.hello;
-              $(global.dom).html(content);
-            }
-        },'json');
+        if(global.sign==0){
+          $.post(this.options.url,this.options.param,function(data){
+              if(data.isOk){
+                global.content = data.data.res;
+                $(global.dom).html(global.content);
+                global.sign=1;
+              }
+          },'json');
+        }else{
+           $(global.dom).html(global.content);
+        }
       }else{
         content = $(obj).find(this.options.dom).val();
          $(global.dom).html(content);
